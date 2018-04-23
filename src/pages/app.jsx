@@ -8,7 +8,6 @@ import Main from '~pages/topics/index.jsx'
 import Article from '~pages/article/index.jsx'
 
 import Nav from '~components/nav.jsx'
-// import ScrollToTop from '~components/global/ScrollToTop.jsx'
 
 import 'nprogress/nprogress.css'
 import 'toastr/build/toastr.min.css'
@@ -24,7 +23,6 @@ export default class App extends Component {
     }
     render() {
         return (
-            // <ScrollToTop>
             <div className="g-doc">
                 <Nav location={this.props.location} />
                 <TransitionGroup appear>
@@ -41,7 +39,6 @@ export default class App extends Component {
                     </CSSTransition>
                 </TransitionGroup>
             </div>
-            // </ScrollToTop>
         )
     }
 }

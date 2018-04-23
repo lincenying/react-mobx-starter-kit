@@ -1,6 +1,6 @@
-# react-starter-kit
+# react-mobx-starter-kit
 
-一个基于 react, react-router, redux, immutable, react-hot-loader 的简单实例,
+一个基于 react, react-router, mobx, react-hot-loader 的简单实例,
 
 支持热加载, 但是不是非常完美
 
