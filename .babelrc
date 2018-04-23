@@ -24,7 +24,7 @@
                         "chrome": 52
                     },
                     "modules": false,
-                    "debug": true
+                    "debug": false
                 }], "react"
             ],
             "plugins": [

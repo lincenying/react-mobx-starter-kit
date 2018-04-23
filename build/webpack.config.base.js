@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 
 const isInNodeModules = 'node_modules' === path.basename(path.resolve(path.join(__dirname, '..', '..')))
-const relativePath = isInNodeModules ? '../../..' : '..'
+let relativePath = isInNodeModules ? '../../..' : '..'
 const isInDebugMode = process.argv.some(arg => arg.indexOf('--debug-template') > -1)
 if (isInDebugMode) {
     relativePath = '..'
@@ -44,19 +44,9 @@ const config = {
         rules: [
             {
                 test: /\.js|\.jsx$/,
-                loader: 'eslint-loader',
-                enforce: 'pre',
-                include: srcPath
-            },
-            {
-                test: /\.js|\.jsx$/,
                 include: srcPath,
                 exclude: /node_modules/,
                 loader: ['babel-loader']
-            },
-            {
-                test: /\.json$/,
-                loader: 'json-loader'
             },
             {
                 test: /\.(mp4|webm)$/,
