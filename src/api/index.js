@@ -19,7 +19,7 @@ axios.interceptors.response.use(response => response, error => Promise.resolve(e
 function checkStatus(response) {
     NProgress.done()
     if (response.status === 200 || response.status === 304) {
-        return response
+        return response.data
     }
     return {
         success: false,
@@ -28,8 +28,8 @@ function checkStatus(response) {
 }
 
 function checkCode(res) {
-    if (res.data.success !== true) {
-        setMessage(res.data.message)
+    if (res.success !== true) {
+        setMessage(res.message)
     }
     return res
 }
