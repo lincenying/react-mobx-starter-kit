@@ -13,7 +13,8 @@ const buildPath = path.join(__dirname, '../dist')
 
 const config = merge(baseWebpackConfig, {
     performance: {
-        maxEntrypointSize: 500000,
+        maxAssetSize: 500000,
+        maxEntrypointSize: 1000000,
         assetFilter: function(assetFilename) {
             return assetFilename.endsWith('.js')
         }
@@ -99,7 +100,7 @@ const config = merge(baseWebpackConfig, {
             }
         }),
         new WebpackBar({
-            profile: true
+            profile: false
         })
     ]
 })

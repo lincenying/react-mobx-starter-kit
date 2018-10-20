@@ -23,6 +23,7 @@ webpack(config).run(function(err, stats) {
     process.stdout.write(
         stats.toString({
             colors: true,
+            assets: false,
             modules: false,
             children: false,
             chunks: false,

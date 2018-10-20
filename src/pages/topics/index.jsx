@@ -10,7 +10,7 @@ import MainItem from './item.jsx'
     topics: PropTypes.object
 })
 @observer
-export default class Main extends Component {
+class Main extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -19,7 +19,7 @@ export default class Main extends Component {
         this.handleLoadMore = this.handleLoadMore.bind(this)
         this.onScroll = this.onScroll.bind(this)
     }
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         console.log('topic: componentWillMount')
         const { pathname } = this.props.topics
         if (pathname !== this.props.location.pathname) this.handlefetchPosts()
@@ -75,3 +75,4 @@ export default class Main extends Component {
         )
     }
 }
+export default Main

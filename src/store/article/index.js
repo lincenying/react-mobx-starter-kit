@@ -2,8 +2,10 @@ import { observable, action } from 'mobx'
 import api from '~api'
 
 export class ArticleStore {
-    @observable pathname = ''
-    @observable data = {}
+    @observable
+    pathname = ''
+    @observable
+    data = {}
 
     @action
     async getArticle(config) {

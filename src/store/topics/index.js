@@ -2,10 +2,14 @@ import { observable, action } from 'mobx'
 import api from '~api'
 
 export class TopicsStore {
-    @observable hasNext = 0
-    @observable page = 1
-    @observable pathname = ''
-    @observable data = []
+    @observable
+    hasNext = 0
+    @observable
+    page = 1
+    @observable
+    pathname = ''
+    @observable
+    data = []
 
     @action
     async getTopics(config) {

@@ -9,8 +9,8 @@ import { propTypes } from '~decorators'
     article: PropTypes.object
 })
 @observer
-export default class Article extends Component {
-    componentWillMount() {
+class Article extends Component {
+    UNSAFE_componentWillMount() {
         console.log('article: componentWillMount')
         const { pathname } = this.props.article
         if (pathname !== this.props.location.pathname) this.handlegetArticle()
@@ -58,3 +58,4 @@ export default class Article extends Component {
         )
     }
 }
+export default Article
