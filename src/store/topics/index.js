@@ -1,5 +1,5 @@
 import { observable, action } from 'mobx'
-import api from '~api'
+import api from '@/api'
 
 export class TopicsStore {
     @observable

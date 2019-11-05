@@ -2,18 +2,21 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { inject, observer } from 'mobx-react'
 
-import { propTypes } from '~decorators'
+import { immutableRenderDecorator } from 'react-immutable-render-mixin'
+import { propTypes } from '@/decorators'
 
 @inject('article')
+@immutableRenderDecorator
 @propTypes({
     article: PropTypes.object
 })
 @observer
 class Article extends Component {
-    UNSAFE_componentWillMount() {
+    constructor(props) {
+        super(props)
         console.log('article: componentWillMount')
-        const { pathname } = this.props.article
-        if (pathname !== this.props.location.pathname) this.handlegetArticle()
+        const { pathname } = props.article
+        if (pathname !== props.location.pathname) this.handlegetArticle()
     }
     componentDidMount() {
         console.log('article: componentDidMount')
@@ -22,10 +25,13 @@ class Article extends Component {
     componentDidUpdate(prevProps) {
         const pathname = this.props.location.pathname
         const prevPathname = prevProps.location.pathname
-        console.log('article: componentDidUpdate', pathname, prevPathname)
         if (pathname !== prevPathname) {
+            console.log('article: componentDidUpdate', pathname, prevPathname)
             this.handlegetArticle()
         }
+    }
+    componentWillUnmount() {
+        console.log('article: componentWillUnmount')
     }
     handlegetArticle() {
         const {
