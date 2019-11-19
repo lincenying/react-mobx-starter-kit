@@ -14,7 +14,7 @@ npm install  or  yarn
 npm run build
 
 // 2.2 开发模式
-npm run dev
+npm run serve
 
 或者
 

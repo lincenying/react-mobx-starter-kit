@@ -3,12 +3,12 @@
 process.env.NODE_ENV = 'production'
 
 require('shelljs/global')
-var path = require('path')
-var webpack = require('webpack')
-var config = require('./webpack.config.prod')
+const path = require('path')
+const webpack = require('webpack')
+const config = require('./webpack.config.prod')
 
-var isInNodeModules = 'node_modules' === path.basename(path.resolve(path.join(__dirname, '..', '..')))
-var relative = isInNodeModules ? '../..' : '.'
+const isInNodeModules = 'node_modules' === path.basename(path.resolve(path.join(__dirname, '..', '..')))
+const relative = isInNodeModules ? '../..' : '.'
 rm('-rf', relative + '/dist/static')
 mkdir('-p', relative + '/dist/static')
 cp('-R', 'static/', relative + '/dist/')
@@ -31,7 +31,7 @@ webpack(config).run(function(err, stats) {
         }) + '\n'
     )
 
-    var openCommand = process.platform === 'win32' ? 'start' : 'open'
+    const openCommand = process.platform === 'win32' ? 'start' : 'open'
     console.log('Successfully generated a bundle in the build folder!')
     console.log()
     console.log('You can now serve it with any static server, for example:')

@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react'
 import { immutableRenderDecorator } from 'react-immutable-render-mixin'
 import { propTypes } from '@/decorators'
 
-@inject('article')
+@inject('globals', 'article')
 @immutableRenderDecorator
 @propTypes({
     article: PropTypes.object
@@ -16,7 +16,7 @@ class Article extends Component {
         super(props)
         console.log('article: componentWillMount')
         const { pathname } = props.article
-        if (pathname !== props.location.pathname) this.handlegetArticle()
+        if (pathname !== props.location.pathname) this.handleGetArticle()
     }
     componentDidMount() {
         console.log('article: componentDidMount')
@@ -27,13 +27,13 @@ class Article extends Component {
         const prevPathname = prevProps.location.pathname
         if (pathname !== prevPathname) {
             console.log('article: componentDidUpdate', pathname, prevPathname)
-            this.handlegetArticle()
+            this.handleGetArticle()
         }
     }
     componentWillUnmount() {
         console.log('article: componentWillUnmount')
     }
-    handlegetArticle() {
+    handleGetArticle() {
         const {
             match: {
                 params: { id }
@@ -54,7 +54,9 @@ class Article extends Component {
                     </li>
                 )
             })
-        return (
+        return !this.props.article.isLoad ? (
+            <div>Loading...</div>
+        ) : (
             <div>
                 <h3>{data.title}</h3>
                 <div dangerouslySetInnerHTML={{ __html: data.content }} />

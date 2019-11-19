@@ -7,7 +7,7 @@ import { immutableRenderDecorator } from 'react-immutable-render-mixin'
 import { propTypes } from '@/decorators'
 import MainItem from './item.jsx'
 
-@inject('topics')
+@inject('globals', 'topics')
 @immutableRenderDecorator
 @propTypes({
     topics: PropTypes.object

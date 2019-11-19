@@ -27,10 +27,10 @@ class App extends Component {
                 <Nav location={this.props.location} />
                 <TransitionGroup appear>
                     <CSSTransition
-                        classNames="example"
+                        classNames="router example"
                         in={false}
                         key={this.props.location.key}
-                        timeout={{ appear: 3000, enter: 3000, exit: 300 }}
+                        timeout={{ appear: 1000, enter: 1000, exit: 300 }}
                     >
                         <Switch key={this.props.location.pathname} location={this.props.location}>
                             <Route name="index" path="/" exact component={Main} />
