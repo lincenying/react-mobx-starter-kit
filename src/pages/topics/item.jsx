@@ -1,11 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Avatar } from 'antd'
 
 export default props => {
     const item = props.list
     return (
-        <li>
-            <Link to={`/article/${item.id}`}>{item.title}</Link>
+        <li key={item.id}>
+            <Avatar src={item.author.avatar_url} />
+            <Link to={`/article/${item.id}`}>
+                <a>{item.title}</a>
+            </Link>
         </li>
     )
 }

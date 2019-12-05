@@ -8,18 +8,18 @@
 
 ```
 // 1. 安装依赖
-npm install  or  yarn
+yarn
 
 // 2.1 生成静态文件
-npm run build
+yarn build
 
 // 2.2 开发模式
-npm run dev
+yarn serve
 
 或者
 
-npm run start
+yarn start
 ```
 
 打开:
-http://localhost:8080
+http://localhost:8020
