@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { inject, observer } from 'mobx-react'
 import ls from 'store2'
 import { immutableRenderDecorator } from 'react-immutable-render-mixin'
+import { Button } from 'antd'
 
 import { propTypes } from '@/decorators'
 import MainItem from './item.jsx'
@@ -17,7 +18,8 @@ class Main extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            scrollTop: 0
+            scrollTop: 0,
+            loading: false
         }
         this.handleLoadMore = this.handleLoadMore.bind(this)
         this.onScroll = this.onScroll.bind(this)
@@ -46,11 +48,13 @@ class Main extends Component {
         console.log('topic: componentWillUnmount')
         window.removeEventListener('scroll', this.onScroll)
     }
-    handlefetchPosts(page = 1) {
+    async handlefetchPosts(page = 1) {
         const {
             location: { pathname }
         } = this.props
-        this.props.topics.getTopics({ page, pathname })
+        this.setState({ loading: true })
+        await this.props.topics.getTopics({ page, pathname })
+        this.setState({ loading: false })
     }
     handleLoadMore() {
         const { page } = this.props.topics
@@ -69,12 +73,14 @@ class Main extends Component {
         return (
             <div>
                 <div>{this.state.msg}</div>
-                <ul>{lists}</ul>
-                <div className="page">
-                    <a onClick={this.handleLoadMore} href={null}>
-                        加载更多
-                    </a>
-                </div>
+                <ul>
+                    {lists}
+                    <li className="page">
+                        <Button type="primary" loading={this.state.loading} onClick={this.handleLoadMore}>
+                            加载下一页
+                        </Button>
+                    </li>
+                </ul>
             </div>
         )
     }

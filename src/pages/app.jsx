@@ -23,7 +23,7 @@ class App extends Component {
     }
     render() {
         return (
-            <div className="g-doc">
+            <div className="main">
                 <Nav location={this.props.location} />
                 <TransitionGroup appear>
                     <CSSTransition

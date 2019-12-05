@@ -8,17 +8,17 @@
 
 ```
 // 1. 安装依赖
-npm install  or  yarn
+yarn
 
 // 2.1 生成静态文件
-npm run build
+yarn build
 
 // 2.2 开发模式
-npm run serve
+yarn serve
 
 或者
 
-npm run start
+yarn start
 ```
 
 打开:

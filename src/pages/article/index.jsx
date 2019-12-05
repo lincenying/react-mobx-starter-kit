@@ -44,24 +44,29 @@ class Article extends Component {
     }
     render() {
         const { data } = this.props.article
-        const rep_lists =
-            data.replies &&
-            data.replies.map(list => {
-                return (
-                    <li key={list.id}>
-                        <span>{list.author.loginname}:</span>
-                        <div dangerouslySetInnerHTML={{ __html: list.content }} />
-                    </li>
-                )
-            })
         return !this.props.article.isLoad ? (
             <div>Loading...</div>
         ) : (
             <div>
-                <h3>{data.title}</h3>
-                <div dangerouslySetInnerHTML={{ __html: data.content }} />
-                <h3>回帖: </h3>
-                <ul>{rep_lists}</ul>
+                <div className="article-content" dangerouslySetInnerHTML={{ __html: data.content }} />
+                <div className="reply">
+                    {data.replies &&
+                        data.replies.map(sub_item => {
+                            return (
+                                <div key={sub_item.id} className="reply-item">
+                                    <h5>
+                                        {sub_item.author.loginname}: <span>[{data.create_at}]</span>
+                                    </h5>
+                                    <div
+                                        className="reply-item-content"
+                                        dangerouslySetInnerHTML={{
+                                            __html: sub_item.content
+                                        }}
+                                    />
+                                </div>
+                            )
+                        })}
+                </div>
             </div>
         )
     }
