@@ -2,18 +2,21 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { inject, observer } from 'mobx-react'
 
-import { propTypes } from '~decorators'
+import { immutableRenderDecorator } from 'react-immutable-render-mixin'
+import { propTypes } from '@/decorators'
 
-@inject('article')
+@inject('globals', 'article')
+@immutableRenderDecorator
 @propTypes({
     article: PropTypes.object
 })
 @observer
 class Article extends Component {
-    UNSAFE_componentWillMount() {
+    constructor(props) {
+        super(props)
         console.log('article: componentWillMount')
-        const { pathname } = this.props.article
-        if (pathname !== this.props.location.pathname) this.handlegetArticle()
+        const { pathname } = props.article
+        if (pathname !== props.location.pathname) this.handleGetArticle()
     }
     componentDidMount() {
         console.log('article: componentDidMount')
@@ -22,12 +25,15 @@ class Article extends Component {
     componentDidUpdate(prevProps) {
         const pathname = this.props.location.pathname
         const prevPathname = prevProps.location.pathname
-        console.log('article: componentDidUpdate', pathname, prevPathname)
         if (pathname !== prevPathname) {
-            this.handlegetArticle()
+            console.log('article: componentDidUpdate', pathname, prevPathname)
+            this.handleGetArticle()
         }
     }
-    handlegetArticle() {
+    componentWillUnmount() {
+        console.log('article: componentWillUnmount')
+    }
+    handleGetArticle() {
         const {
             match: {
                 params: { id }
@@ -38,22 +44,29 @@ class Article extends Component {
     }
     render() {
         const { data } = this.props.article
-        const rep_lists =
-            data.replies &&
-            data.replies.map(list => {
-                return (
-                    <li key={list.id}>
-                        <span>{list.author.loginname}:</span>
-                        <div dangerouslySetInnerHTML={{ __html: list.content }} />
-                    </li>
-                )
-            })
-        return (
+        return !this.props.article.isLoad ? (
+            <div>Loading...</div>
+        ) : (
             <div>
-                <h3>{data.title}</h3>
-                <div dangerouslySetInnerHTML={{ __html: data.content }} />
-                <h3>回帖: </h3>
-                <ul>{rep_lists}</ul>
+                <div className="article-content" dangerouslySetInnerHTML={{ __html: data.content }} />
+                <div className="reply">
+                    {data.replies &&
+                        data.replies.map(sub_item => {
+                            return (
+                                <div key={sub_item.id} className="reply-item">
+                                    <h5>
+                                        {sub_item.author.loginname}: <span>[{data.create_at}]</span>
+                                    </h5>
+                                    <div
+                                        className="reply-item-content"
+                                        dangerouslySetInnerHTML={{
+                                            __html: sub_item.content
+                                        }}
+                                    />
+                                </div>
+                            )
+                        })}
+                </div>
             </div>
         )
     }
