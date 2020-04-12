@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+/* eslint-disable no-inline-comments */
+import { Avatar, Button, List } from 'antd'
 import { inject, observer } from 'mobx-react'
-import ls from 'store2'
+import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import { immutableRenderDecorator } from 'react-immutable-render-mixin'
-import { Button } from 'antd'
-
-import { propTypes } from '@/decorators'
-import MainItem from './item.jsx'
+import { Link, Prompt } from 'react-router-dom'
+import ls from 'store2'
+import { propTypes } from '~/decorators'
 
 @inject('globals', 'topics')
 @immutableRenderDecorator
@@ -18,11 +18,9 @@ class Main extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            scrollTop: 0,
             loading: false
         }
         this.handleLoadMore = this.handleLoadMore.bind(this)
-        this.onScroll = this.onScroll.bind(this)
 
         console.log('topic: constructor')
         const { pathname } = props.topics
@@ -34,7 +32,6 @@ class Main extends Component {
         const scrollTop = ls.get(path) || 0
         ls.remove(path)
         if (scrollTop) window.scrollTo(0, scrollTop)
-        window.addEventListener('scroll', this.onScroll)
     }
     componentDidUpdate(prevProps) {
         const pathname = this.props.location.pathname
@@ -46,35 +43,54 @@ class Main extends Component {
     }
     componentWillUnmount() {
         console.log('topic: componentWillUnmount')
-        window.removeEventListener('scroll', this.onScroll)
     }
     async handlefetchPosts(page = 1) {
         const {
             location: { pathname }
         } = this.props
-        this.setState({ loading: true })
         await this.props.topics.getTopics({ page, pathname })
-        this.setState({ loading: false })
     }
-    handleLoadMore() {
+    async handleLoadMore() {
         const { page } = this.props.topics
-        this.handlefetchPosts(page + 1)
-    }
-    onScroll() {
-        const scrollTop = Math.max(window.pageYOffset, document.documentElement.scrollTop, document.body.scrollTop)
-        const path = this.props.location.pathname
-        if (path && scrollTop) ls.set(path, scrollTop)
+        this.setState({ loading: true })
+        await this.handlefetchPosts(page + 1)
+        this.setState({ loading: false })
     }
     render() {
         const { data } = this.props.topics
-        const lists = data.map(list => {
-            return <MainItem key={list.id} list={list} />
-        })
         return (
             <div>
-                <div>{this.state.msg}</div>
+                {/* <Prompt when message={() => '确定要离开页面吗？'} /> */}
+                <Prompt
+                    when
+                    message={() => {
+                        const path = this.props.location.pathname
+                        const scrollTop = Math.max(
+                            window.pageYOffset,
+                            document.documentElement.scrollTop,
+                            document.body.scrollTop
+                        )
+                        ls.set(path, scrollTop)
+                        return true
+                    }}
+                />
+                <List
+                    itemLayout="horizontal"
+                    dataSource={data}
+                    renderItem={item => (
+                        <List.Item>
+                            <List.Item.Meta
+                                avatar={<Avatar src={item.author.avatar_url} />}
+                                title={
+                                    <Link to={`/article/${item.id}`} className="li-name">
+                                        {item.title}
+                                    </Link>
+                                }
+                            />
+                        </List.Item>
+                    )}
+                />
                 <ul>
-                    {lists}
                     <li className="page">
                         <Button type="primary" loading={this.state.loading} onClick={this.handleLoadMore}>
                             加载下一页
