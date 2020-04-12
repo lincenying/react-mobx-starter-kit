@@ -3,7 +3,7 @@
 const path = require('path')
 const express = require('express')
 const webpack = require('webpack')
-const proxyMiddleware = require('http-proxy-middleware')
+const { createProxyMiddleware } = require('http-proxy-middleware')
 const webpackConfig = require('./webpack.config.dev')
 const config = require('../config')
 
@@ -40,7 +40,7 @@ Object.keys(proxyTable).forEach(function(context) {
             target: options
         }
     }
-    app.use(proxyMiddleware(context, options))
+    app.use(createProxyMiddleware(context, options))
 })
 
 // handle fallback for HTML5 history API
