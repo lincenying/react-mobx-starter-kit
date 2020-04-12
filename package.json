@@ -80,12 +80,10 @@
   },
   "lint-staged": {
     "*.jsx": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ],
     "*.js": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ]
   },
   "husky": {
