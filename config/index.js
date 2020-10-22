@@ -22,6 +22,13 @@ module.exports = {
                 pathRewrite: {
                     '^/api': '/api'
                 }
+            },
+            '/testapi': {
+                target: 'https://www.vue-js.com',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/testapi': '/api'
+                }
             }
         }
     }

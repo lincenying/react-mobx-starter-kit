@@ -13,7 +13,7 @@ export class TopicsStore {
 
     @action
     async getTopics(config) {
-        const { data, success } = await api.get('https://cnodejs.org/api/v1/topics', config)
+        const { data, success } = await api.get('/testapi/v1/topics', config)
         if (success === true) {
             this.data = config.page === 1 ? [].concat(data) : this.data.concat(data)
             this.page = config.page
