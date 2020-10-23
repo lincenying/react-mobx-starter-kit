@@ -12,8 +12,8 @@ import { propTypes } from '~/decorators'
 })
 @observer
 class Article extends Component {
-    constructor(props) {
-        super(props)
+    constructor(...props) {
+        super(...props)
         console.log('article: componentWillMount')
         const { pathname } = props.article
         if (pathname !== props.location.pathname) this.handleGetArticle()
