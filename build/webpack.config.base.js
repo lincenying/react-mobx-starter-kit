@@ -27,9 +27,9 @@ const config = {
     resolve: {
         alias: {
             '~': path.join(__dirname, '../src'),
-            '@': path.join(__dirname, '../src'),
+            '@': path.join(__dirname, '../src')
         },
-        extensions: ['.js', '.jsx']
+        extensions: ['.ts', '.tsx', '.js', '.jsx']
     },
     resolveLoader: {
         modules: [nodeModulesPath]
@@ -40,11 +40,18 @@ const config = {
                 test: /\.js|\.jsx$/,
                 include: srcPath,
                 exclude: /node_modules/,
-                loader: ['babel-loader']
+                use: {
+                    loader: 'babel-loader'
+                }
             },
             {
-                test: /\.(mp4|webm)$/,
-                loader: 'url-loader?limit=10000'
+                test: /\.(scss|css)$/,
+                use: [
+                    'style-loader',
+                    { loader: 'css-loader', options: { sourceMap: true, importLoaders: 1 } },
+                    { loader: 'postcss-loader', options: { sourceMap: true } },
+                    { loader: 'sass-loader', options: { sourceMap: true } }
+                ]
             }
         ]
     },
