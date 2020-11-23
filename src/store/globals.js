@@ -1,11 +1,9 @@
-import { observable, action } from 'mobx'
+import { action, observable } from 'mobx'
 
 export class GlobalStore {
-    @observable
-    cookies = {}
+    @observable cookies = {}
 
-    @action
-    async setCookies(config) {
+    @action async setCookies(config) {
         this.cookies = config
     }
 }
