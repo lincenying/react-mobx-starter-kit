@@ -9,7 +9,7 @@ const config = merge(baseWebpackConfig, {
         hints: false
     },
     mode: 'development',
-    devtool: 'eval',
+    devtool: 'inline-source-map',
     module: {
         rules: [
             {
